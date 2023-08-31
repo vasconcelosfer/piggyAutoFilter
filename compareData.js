@@ -1,14 +1,11 @@
-let customColumnName = 'Codigo Aduana de registro - DDT'
-
 function cleanArray(arrayToClean, customColumnIndex, arrayCustom) {
-    let result = arrayToClean.filter(x => {
+    return arrayToClean.filter(x => {
         return arrayCustom.includes(x[customColumnIndex]);
     })
-    return result;
 }
 
 function filterCustoms(arrayListData, arrayCustom = arrHidrovia) {
-    let arrayFilteredList = new Array();
+    let arrayFilteredList = [];
     arrayListData.forEach((element, index) => {
         let arrayResult = cleanArray(element, arrCustomColumnIndex[index], arrayCustom);
         arrayFilteredList.push(arrayResult);
@@ -89,8 +86,8 @@ function processData() {
     let arrCustomFilteredListCurrentMonth = filterCustoms(arrayCrudoMesActual);
 
     // Compara lists
-    let arrComparedListLastMonth = new Array();
-    let arrComparedListCurrentMonth = new Array();
+    let arrComparedListLastMonth = [];
+    let arrComparedListCurrentMonth = [];
     for (let i=0; i < arrCustomFilteredListCurrentMonth.length; i++) {
     // for (let i = 1; i < 4; i++) {
         arrComparedListCurrentMonth.push(getNewData(arrCustomFilteredListLastMonth[i],
@@ -101,14 +98,19 @@ function processData() {
             arrRecordColumnIndex[i]));
     }
 
-    let rosarioCustomListLastMonth = filterCustoms(arrComparedListLastMonth, ['052'])
-    let rosarioCustomListCurrentMonth = filterCustoms(arrComparedListCurrentMonth, ['052'])
-    for (let i=1; i < rosarioCustomListCurrentMonth.length; i++) {
-        let sheetL = new sheet();
-        sheetL.addSheet(rosarioCustomListLastMonth[i], rosarioCustomListCurrentMonth[i], arrNombresArchivos[i][4].substring(0,15));
-        let fileSheet = sheetL.getSpreadSheetFile();
-        let fileSheetBlob = new Blob([fileSheet], {type: "application/octet-stream"});
-        download('rosario.xlsx', window.URL.createObjectURL(fileSheetBlob));
+    let rosarioCustomListLastMonth = filterCustoms(arrComparedListLastMonth, ['057'])
+    let rosarioCustomListCurrentMonth = filterCustoms(arrComparedListCurrentMonth, ['057'])
+    let sheetL = new sheet();
+    for (let i=0; i < rosarioCustomListCurrentMonth.length; i++) {
+        // Add Column Titles
+        rosarioCustomListCurrentMonth[i].unshift(arrayTitulosMesActual[i]);
+        rosarioCustomListCurrentMonth[i][0].push('ES NUEVO');
+        rosarioCustomListLastMonth[i].unshift(arrayTitulosMesAnterior[i]);
+        rosarioCustomListLastMonth[i][0].push('REGULARIZO');
+        sheetL.addSheet(rosarioCustomListLastMonth[i], rosarioCustomListCurrentMonth[i], arrNombresArchivos[i][4]);
     }
+    let fileSheet = sheetL.getSpreadSheetFile();
+    let fileSheetBlob = new Blob([fileSheet], {type: "application/octet-stream"});
+    download('SANLORENZO.xlsx', window.URL.createObjectURL(fileSheetBlob));
     console.log('Finalizado');
 }
