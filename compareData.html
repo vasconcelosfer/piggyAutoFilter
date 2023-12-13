@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tablero WEB DI RAPT</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css"/>
+    <!--    <script src="fncGen.js"></script>-->
+    <script src="lib/xlsx.full.min.js"></script>
+    <script src="sheet.js"></script>
+    <script src="datosArchivos.js"></script>
+    <script src="parametros.js"></script>
+    <script src="data/arrayCrudoMesActual.js"></script>
+    <script src="data/arrayCrudoMesAnterior.js"></script>
+    <script src="compareData.js"></script>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <div style="width:100%;height:100px;">
+            <img src="images/logocolor2.png"/>
+        </div>
+    </div>
+    <div id="content" style="margin-left: 10px">
+        <div id="dvCargaDatos" style="width:100%;float:left;padding-top:95px;">
+            <label for="customSelect">Seleccionar aduana</label>
+            <select name='custom' id="customSelect">
+
+            </select>
+            <button id="computeCustom" name="computeCustom" onclick="computeCustom()">Procesar</button>
+        </div>
+
+        <div style="margin-left: 10px">
+            <p>INSTRUCCIONES</p>
+            <p>Copiar el archivo con los datos del mes anterior en la carpeta data y renombrarlo con el siguiente nombre: "arrayCrudoMesAnterior.js"</p>
+            <p>En el archivo con los datos del mes anterior hay renombrar el array de con el siguiente nombre: "arrayCrudoMesAnterior", "arrayTitulosMesAnterior"</p>
+            <p>Copiar el archivo con los datos del mes actual en la carpeta data y renombrarlo con el siguiente nombre: "arrayCrudoMesActual.js"</p>
+            <p>En el archivo con los datos del mes actual hay renombrar el array de con el siguiente nombre: "arrayCrudoMesActual", "arrayTitulosMesActual"</p>
+        </div>
+    </div>
+
+
+</div>
+</body>
+<script>
+
+    let options = [
+        {"text": 'RAFAELA', "value": '093'},
+        {"text": 'SANTA FE', "value": '062'},
+        {"text": 'SAN LORENZO', "value": '057'},
+        {"text": 'VILLA CONSTITUCION', "value": '069'},
+        {"text": 'ROSARIO', "value": '052', selected: true},
+        {"text": 'CONCORDIA', "value": '016'},
+        {"text": 'PARANA', "value": '041'},
+        {"text": 'DIAMANTE', "value": '020'},
+        {"text": 'COLON', "value": '013'},
+        {"text": 'CONCEPCION DEL URUGUAY', "value": '015'},
+        {"text": 'GUALEGUAYCHU', "value": '026'},
+        {"text": 'SAN NICOLAS', "value": '059'},
+        {"text": 'SAN PEDRO', "value": '060'},
+        {"text": 'VENADO TUERTO', "value": '094'},
+        {"text": 'ZF CONCEPCION DEL URUGUAY', "value": '267'},
+        {"text": 'ZF VILLA CONSTITUCION', "value": '268'}
+    ]
+    let optionList = document.getElementById('customSelect').options;
+
+    options.forEach(option =>
+        optionList.add(
+            new Option(option.text, option.value, option.selected)
+        )
+    );
+</script>
+</html>
